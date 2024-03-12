@@ -1,22 +1,22 @@
 select
 --from raw_orders
-orderid,
-orderdate,
-shipdate,
-shipmode,
-o.customerid,
-o.productid,
-ordersellingprice,
-ordercostprice,
+o.orderid,
+o.orderdate,
+o.shipdate,
+o.shipmode,
+o.ordersellingprice-o.ordercostprice as orderprofit,
+o.ordercostprice,
+o.ordersellingprice,
 --from raw_customers
-customername,
-segment,
-country,
+c.customerid,
+c.customername,
+c.segment,
+c.country,
 --from raw_product
-category,
-productname,
-subcategory,
-ordersellingprice - ordercostprice as orderprofit
+p.productid,
+p.category,
+p.productname,
+p.subcategory
 from {{ ref('raw_orders') }} as o
 left join {{ ref('raw_customer') }} as c
 on o.customerid = c.customerid
